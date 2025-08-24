@@ -2,66 +2,35 @@
 
 {
 
-    services.tor = {
-      enable = true;
-      openFirewall = true;
-      enableGeoIP =false;
-      relayonionServices = {
-        xmpp = {
-          map = [
-            {
-              port = 5000;
-              #target = {
-              #  addr = "localhost";
-              #    
-              #};
-            }
-
-            {
-              port = 5222;
-            }
-
-            {
-              port = 5269;
-            }
-
-            {
-              port = 5280;
-            }
-
-            {
-              port = 5281;
-            }
-
-            {
-              port = 5347;
-            }
-
-            {
-              port = 5582;
-            }
-
-          ];
-        };
+  services.tor = {
+    enable = true;
+    openFirewall = true;
+    enableGeoIP = false;
+    relayonionServices = {
+      xmpp = {
+        map = [ 5000 5222 5269 5280 5281 5347 5582 ];
       };
     };
+  };
+
+  ## replace "<YOURADDRESS>" everywhere with the generated tor address, should be in /var/lib/tor/onion/xmpp/hostname
 
   services.prosody = {
     enable = true;
-    admins = [ "root@<YOURDOMAIN>.onion" ];
-    ssl.cert = "/var/lib/prosody/<YOURDOMAIN>.onion.crt";
-    ssl.key = "/var/lib/prosody/<YOURDOMAIN>.onion.key";
-    virtualHosts."<YOURDOMAIN>.onion" = {
+    admins = [ "root@<YOURADDRESS>.onion" ];
+    ssl.cert = "/var/lib/prosody/<YOURADDRESS>.onion.crt";
+    ssl.key = "/var/lib/prosody/<YOURADDRESS>.onion.key";
+    virtualHosts."<YOURADDRESS>.onion" = {
         enabled = true;
-        domain = "<YOURDOMAIN>.onion";
-        ssl.cert = "/var/lib/prosody/<YOURDOMAIN>.onion.crt";
-        ssl.key = "/var/lib/prosody/<YOURDOMAIN>.onion.key";
+        domain = "<YOURADDRESS>.onion";
+        ssl.cert = "/var/lib/prosody/<YOURADDRESS>.onion.crt";
+        ssl.key = "/var/lib/prosody/<YOURADDRESS>.onion.key";
     };
     muc = [ {
-        domain = "conference.<YOURDOMAIN>.onion";
+        domain = "conference.<YOURADDRESS>.onion";
     } ];
     uploadHttp = {
-        domain = "upload.<YOURDOMAIN>.onion";
+        domain = "upload.<YOURADDRESS>.onion";
     };
 
     modules.motd = true;
